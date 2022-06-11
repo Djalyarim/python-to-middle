@@ -6,7 +6,17 @@ class MyObject:
 
 
 def cache(func):
-    raise NotImplementedError
+    memo = {}
+
+    def wrapper(*args):
+        if args in memo:
+            return memo[args]
+        else:
+            rv = func(*args)
+            memo[args] = rv
+            return rv
+
+    return wrapper
 
 
 @cache
