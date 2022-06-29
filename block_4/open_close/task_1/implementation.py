@@ -16,6 +16,13 @@ class Product(Enum):
 class CashBox:
 
     def get_total_sum(self, product, card_type):
+        return Cashdrop.get_sum(product, card_type)
+
+
+class Cashdrop:
+
+    @staticmethod
+    def get_sum(product, card_type):
         if product == Product.A:
             cost = Product.A.value
         elif product == Product.B:
@@ -39,8 +46,6 @@ class CashBox:
         total_sum = cost - (cost * discount / 100.0)
 
         return total_sum
-
-
 
 
 
