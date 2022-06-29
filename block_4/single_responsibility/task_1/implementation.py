@@ -24,11 +24,33 @@ class RecordStore:
     def del_record(self, record):
         self._records.remove(record)
 
-    def to_json(self):
-        result = json.dumps([x.as_dict() for x in self._records])
+    # def to_json(self):
+    #     result = json.dumps([x.as_dict() for x in self._records])
+
+    #     return result
+
+    # def save_to_file(self, path):
+    #     with open(path, 'w') as f:
+    #         f.write(self.to_json())
+
+
+class Tojson:
+
+    def __init__(self, recordstore):
+        self.recordstore = recordstore
+
+    def convert(self):
+        result = json.dumps([x.as_dict() for x in self.recordstore._records])
 
         return result
+
+
+class Savetofile:
+
+    def __init__(self, path):
+        self.path = path
 
     def save_to_file(self, path):
         with open(path, 'w') as f:
             f.write(self.to_json())
+
