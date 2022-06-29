@@ -1,43 +1,49 @@
+from abc import ABC, abstractmethod
+
+
+class Art(ABC):
+
+    def __init__(self, name) -> None:
+        super().__init__()
+        self._name = name
+
+    @abstractmethod
+    def check_sample(self):
+        pass
+
+
 class OnlineShop:
 
     def __init__(self) -> None:
         super().__init__()
-        self._books = []
+        self._piece_of_art = []
 
-    def add_book(self, book):
-        self._books.append(book)
+    def add_piece(self, piece):
+        self._piece_of_art.append(piece)
 
         return self
 
-    def read_samples(self):
-        return [b.read_sample() for b in self._books]
+    def check_samples(self):
+
+        return [piece.check_sample() for piece in self._piece_of_art]
 
 
-class Book:
+class Book(Art):
 
-    def __init__(self, name) -> None:
-        super().__init__()
-        self._name = name
+    def check_sample(self):
 
-    def read_sample(self):
         return self._name[0]
 
 
-class Song:
+class Song(Art):
 
-    def __init__(self, name) -> None:
-        super().__init__()
-        self._name = name
+    def check_sample(self):
 
-    def listen_sample(self):
         return self._name[:3]
 
 
-class Film:
+class Film(Art):
 
-    def __init__(self, name) -> None:
-        super().__init__()
-        self._name = name
+    def check_sample(self):
 
-    def see_segment(self):
         return self._name[:5]
