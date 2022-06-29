@@ -17,6 +17,8 @@ class RecordStore:
     def __init__(self) -> None:
         super().__init__()
         self._records = []
+        self._rc = Tojson(self._records)
+        self._sv = Savetofile(self._rc)
 
     def add_record(self, record):
         self._records.append(record)
@@ -24,23 +26,21 @@ class RecordStore:
     def del_record(self, record):
         self._records.remove(record)
 
-    # def to_json(self):
-    #     result = json.dumps([x.as_dict() for x in self._records])
+    def to_json(self):
 
-    #     return result
+        return self._rc.convert()
 
-    # def save_to_file(self, path):
-    #     with open(path, 'w') as f:
-    #         f.write(self.to_json())
+    def save_to_file(self, path):
+        self._sv.save_to_file(path)
 
 
 class Tojson:
 
-    def __init__(self, recordstore):
-        self.recordstore = recordstore
+    def __init__(self, store):
+        self._store = store
 
     def convert(self):
-        result = json.dumps([x.as_dict() for x in self.recordstore._records])
+        result = json.dumps([x.as_dict() for x in self._store])
 
         return result
 
@@ -48,9 +48,9 @@ class Tojson:
 class Savetofile:
 
     def __init__(self, path):
-        self.path = path
+        self._path = path
 
     def save_to_file(self, path):
         with open(path, 'w') as f:
-            f.write(self.to_json())
+            f.write(self._path.convert())
 
