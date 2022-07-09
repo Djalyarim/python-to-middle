@@ -109,6 +109,17 @@ class ContractDeveloper(Name, HourlyRate, HoursInMonth, CalculateMonthSalary):
         return 100.0
 
     @salary_method
+<<<<<<< HEAD
     def calculate_month_salary(self):
 
         return self.hourly_rate * self.hours_in_month
+=======
+<<<<<<< HEAD
+    def calculate_contract_salary(self):
+        return self.hourly_rate + self.hours_in_month
+=======
+    def calculate_month_salary(self):
+
+        return self.hourly_rate * self.hours_in_month
+>>>>>>> 86f5efa (interface segregation done)
+>>>>>>> bars-group-education-main2
