@@ -33,15 +33,16 @@ class Customer(models.Model):
         self.save()
 
     def change_name(self, new_name):
-        self.name = new_name
-        self.save()
+        Customer.objects.filter(pk=self.pk).update(name=new_name)
 
     def change_email(self, new_email):
         if '@' not in new_email:
             raise ValueError('Email должен содержать знак @')
-
-        self.email = new_email
-        self.save()
+        data = Customer.objects.filter(pk=self.pk)
+        if hasattr(data, 'self.email'):
+            data.update(email=new_email)
+        else:
+            setattr(data, 'self.email', new_email)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super().save(force_insert, force_update, using, update_fields)

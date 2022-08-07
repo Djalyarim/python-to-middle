@@ -1,5 +1,9 @@
 from django.db import (
-    models,
+    models
+)
+
+from django.db import (
+    transaction
 )
 
 
@@ -10,13 +14,25 @@ class Account(models.Model):
     class Meta:
         db_table = 'locks_1_account'
 
-    def deposit(self, amount):
-        self.balance += amount
-        self.save()
+    @classmethod
+    def deposit(cls, amount):
+        with transaction.atomic():
+            account = (cls.objects.select_for_update().get())
+            account.balance += amount
+            account.save()
 
-    def withdraw(self, amount):
-        if amount > self.balance:
-            raise ValueError('Сумма снятия больше, чем баланс счета')
+        return account
 
-        self.balance -= amount
-        self.save()
+    @classmethod
+    def withdraw(cls, amount):
+        with transaction.atomic():
+            account = (cls.objects.select_for_update().get())
+
+            if account.balance < amount:
+                raise ValueError('Сумма снятия больше, чем баланс счета')
+
+        account.balance -= amount
+        account.save()
+
+        return account
+
